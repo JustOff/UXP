@@ -27,12 +27,14 @@ var ShellServiceInternal = {
   get canSetDesktopBackground() {
 #if defined(XP_WIN) || defined(XP_MACOSX)
     return true;
-#elif XP_LINUX
+#elif defined(MOZ_WIDGET_GTK) || defined(XP_LINUX)
+#ifndef MOZ_WIDGET_ANDROID
     if (this.shellService) {
       let linuxShellService = this.shellService
                                   .QueryInterface(Ci.nsIGNOMEShellService);
       return linuxShellService.canSetDesktopBackground;
     }
+#endif
     return false;
 #else
     return false;
